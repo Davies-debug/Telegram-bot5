@@ -57,15 +57,32 @@ CHAT_IDS = [
     "@chezkaisencard"
 ]
 
-async def main():
-    async with TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH) as client:
+SOURCE_CHANNEL = -1004297379788
+
+async def send_messages(client):
+    try:
+        messages = await client.get_messages(SOURCE_CHANNEL, limit=1)
+        if not messages:
+            print("Aucun message trouve dans le canal source")
+            return
+        last_message = messages[0]
         for chat_id in CHAT_IDS:
             try:
-                await client(JoinChannelRequest(chat_id))
-                print(f"Rejoint {chat_id}")
-                await asyncio.sleep(5)
+                await client.forward_messages(chat_id, last_message)
+                print(f"Message transfere a {chat_id}")
             except Exception as e:
                 print(f"Erreur pour {chat_id}: {e}")
-                await asyncio.sleep(5)
+            await asyncio.sleep(10)
+    except Exception as e:
+        print(f"Erreur canal source: {e}")
+
+async def main():
+    async with TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH) as client:
+        print("Bot demarre...")
+        while True:
+            print("Envoi des messages...")
+            await send_messages(client)
+            print("Attente de 20 minutes...")
+            await asyncio.sleep(20 * 60)
 
 asyncio.run(main())
