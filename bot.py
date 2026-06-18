@@ -5,7 +5,7 @@ from telethon.tl.functions.channels import JoinChannelRequest
 
 API_ID = 37266230
 API_HASH = "c9f95b37dd021863d56426d500cc7227"
-SESSION_STRING = "1BJWap1wBuxK1Re0zo5MHI1EzCKNMHfaNqdQY9pevHMM1iikqM_u6m7hnJO2XVm6e9RwANbyGmly6au5uYEbKXVI60DHwZ4sMUWs6gRENRB7FbZuJMP9-ojtAEK2BIHCN6g4sNs2975riHjQj-KpsykNLQr6FPeC-G6BzI29PlTwZTeXE3-XKjh8CbMkCDxtLJ4qQE01pT3H-0BDyBqFA5GFynt1HBP18T8EGqIHE5chz0wx4NsoGh49skqFA0Uuakt0ZngnNRKaeWnpBDYFV2R5etmFqbx2x_CeZYrM7AHPpjCxRqg00lQKWTvouz0TAviC0C7EBY6j-qc1WZXLy9hlqSddPHXY="
+SESSION_STRING = "1BJWap1sBu8CDYReT05DdYWcMnQ4f5489z5E4yu3foLnf5ElZr9nUGNbtLWwY3SkhisCbkIrN2HID72R9QVFKy6h2CL3pMekMVyZrl_Kw7fpg5H5DnKE1pWdC7UDj5Tv7QCqjC4AE71ojC9Fm5OWpi3fNdu-5Zo-l1xUCkWADqdBoR0vb_y6KBPVgHx9n5WWyEzADCulsef5rlEyK_CGPpWJ0EOZVsQMc18vw_GxQpZ6lsS42vm8qyYPX9VgLYqabNTXs-O1Jljozkve86mK0hxKW5eypZo1_HHDvH3p6JFS2BI9AvjT7e_VwX3hGYj5RSyPvlRl1WC33tblt_uPHh-FE74tXpLE="
 
 CHAT_IDS = [
     "@ChezMendoza",
@@ -79,10 +79,14 @@ async def send_messages(client):
 async def main():
     async with TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH) as client:
         print("Bot demarre...")
+        try:
+            await client(JoinChannelRequest(SOURCE_CHANNEL))
+        except Exception:
+            pass
         while True:
             print("Envoi des messages...")
             await send_messages(client)
-            print("Attente de 20 minutes...")
-            await asyncio.sleep(20 * 60)
+            print("Attente de 14 minutes...")
+            await asyncio.sleep(14 * 60)
 
 asyncio.run(main())
